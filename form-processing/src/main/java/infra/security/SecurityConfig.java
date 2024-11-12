@@ -28,11 +28,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // stateles - nao guarda o estado padrao restfull, se for requisiao
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless - não mantém estado, conforme o padrão RESTful. Cada requisição é independente e não armazena informações de estado.
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Nao precisa de autenticação
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll() // Nao precisa de autenticação
-                        .anyRequest().authenticated() // qualkqyuer outro prexisa de autentiuxaoa
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Não requer autenticação.
+                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll() // Não requer autenticação.
+                        .anyRequest().authenticated() // Todos os outros endpoints exigem autenticação.
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

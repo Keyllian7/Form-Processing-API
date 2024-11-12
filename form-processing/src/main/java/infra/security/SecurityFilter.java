@@ -41,9 +41,9 @@ public class SecurityFilter extends OncePerRequestFilter{ // Aplica um filtro pa
     }
 
     private String recuperarToken(HttpServletRequest request){
-        var authHeader = request.getHeader("Autorização");
+        var authHeader = request.getHeader("Authorization");
         if(authHeader == null) return null;
-        return authHeader.replace("Portador", "");
+        return authHeader.replace("Bearer ", "").trim();
     }
 
 }
