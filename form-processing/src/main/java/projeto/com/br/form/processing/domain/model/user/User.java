@@ -1,6 +1,9 @@
 package projeto.com.br.form.processing.domain.model.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,13 +20,18 @@ import java.util.List;
 @EqualsAndHashCode(of = "id")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public User(String email, String password, UserRole role) {
+    public User(String name, String email, String password, UserRole role) {
+        this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;

@@ -33,20 +33,33 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-        var token = tokenService.generateToken((User) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        try {
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
+            var auth = this.authenticationManager.authenticate(usernamePassword);
+            var token = tokenService.generateToken((User) auth.getPrincipal());
+            return ResponseEntity.ok(new LoginResponseDTO(token));
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Autenticação falhou" + e.getMessage());
+        }
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Validated RegisterDTO data){
-        if(this.userRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.email(), encryptedPassword, data.role());
+    public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
+        try {
+            if (this.userRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().body("Email já cadastrado!");
 
-        this.userRepository.save(newUser);
+            if (data.name() == null || data.email() == null || data.password() == null || data.role() == null) {
+                return ResponseEntity.badRequest().body("Todos os campos obrigatórios devem ser preenchidos.");
+            }
 
-        return ResponseEntity.ok().build();
+            String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
+            User newUser = new User(data.name(), data.email(), encryptedPassword, data.role());
+            this.userRepository.save(newUser);
+
+            return ResponseEntity.ok("Usuario registrado com sucessso!");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erro ao registar usuário" + e.getMessage());
+        }
+
     }
 }
