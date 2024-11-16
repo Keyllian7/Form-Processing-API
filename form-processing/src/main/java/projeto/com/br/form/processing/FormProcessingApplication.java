@@ -1,4 +1,4 @@
-package projeto.com.br.form_processing;
+package projeto.com.br.form.processing;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
