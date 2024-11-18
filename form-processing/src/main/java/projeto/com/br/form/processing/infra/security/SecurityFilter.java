@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import projeto.com.br.form.processing.domain.repository.UserRepository;
+import projeto.com.br.form.processing.domain.service.TokenService;
 
 import java.io.IOException;
 

@@ -3,14 +3,13 @@ package projeto.com.br.form.processing.api.controller;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import projeto.com.br.form.processing.domain.model.form.Form;
-import projeto.com.br.form.processing.domain.model.form.FormRequestDTO;
+import projeto.com.br.form.processing.api.dto.form.FormRequestDTO;
 import projeto.com.br.form.processing.domain.model.user.User;
 import projeto.com.br.form.processing.domain.repository.FormRepository;
 import projeto.com.br.form.processing.domain.repository.UserRepository;
-import projeto.com.br.form.processing.infra.security.TokenService;
+import projeto.com.br.form.processing.domain.service.TokenService;
 
 @RestController
 @RequestMapping("/form")

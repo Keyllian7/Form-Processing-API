@@ -1,4 +1,4 @@
-package projeto.com.br.form.processing.infra.security;
+package projeto.com.br.form.processing.domain.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

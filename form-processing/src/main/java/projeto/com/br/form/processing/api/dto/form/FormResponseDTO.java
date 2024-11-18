@@ -1,4 +1,6 @@
-package projeto.com.br.form.processing.domain.model.form;
+package projeto.com.br.form.processing.api.dto.form;
+
+import projeto.com.br.form.processing.domain.model.form.Form;
 
 import java.util.Date;
 

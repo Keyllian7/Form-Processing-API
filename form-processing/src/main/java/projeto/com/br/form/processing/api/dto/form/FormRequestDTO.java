@@ -1,4 +1,4 @@
-package projeto.com.br.form.processing.domain.model.form;
+package projeto.com.br.form.processing.api.dto.form;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
