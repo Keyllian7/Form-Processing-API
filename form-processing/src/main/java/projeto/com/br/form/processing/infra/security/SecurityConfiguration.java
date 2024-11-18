@@ -26,7 +26,6 @@ public class SecurityConfiguration {
 
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> {})
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/form/create").authenticated()
