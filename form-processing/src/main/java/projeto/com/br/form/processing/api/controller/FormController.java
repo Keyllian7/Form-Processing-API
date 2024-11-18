@@ -4,13 +4,13 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import projeto.com.br.form.processing.domain.model.form.Form;
 import projeto.com.br.form.processing.domain.model.form.FormRequestDTO;
+import projeto.com.br.form.processing.domain.model.user.User;
 import projeto.com.br.form.processing.domain.repository.FormRepository;
+import projeto.com.br.form.processing.domain.repository.UserRepository;
+import projeto.com.br.form.processing.infra.security.TokenService;
 
 @RestController
 @RequestMapping("/form")
@@ -19,10 +19,26 @@ public class FormController {
     @Autowired
     FormRepository formRepository;
 
-    @PostMapping("/create")
-    public ResponseEntity postForm(@RequestBody @Valid FormRequestDTO body){
+    @Autowired
+    TokenService tokenService;
 
-        Form newForm = new Form(body);
+    @Autowired
+    private UserRepository userRepository;
+
+    @PostMapping("/create")
+    public ResponseEntity postForm(@RequestBody @Valid FormRequestDTO body, @RequestHeader("Authorization") String token) {
+        String email = tokenService.validadeToken(token.replace("Bearer ", ""));
+        if (email.isEmpty()) {
+            return ResponseEntity.status(401).body("Token inválido ou expirado.");
+        }
+
+        User user = (User) userRepository.findByEmail(email);
+
+        if (user == null) {
+            return ResponseEntity.status(404).body("Usuário não encontrado.");
+        }
+
+        Form newForm = new Form(body, user);
         this.formRepository.save(newForm);
         return ResponseEntity.ok().build();
     }

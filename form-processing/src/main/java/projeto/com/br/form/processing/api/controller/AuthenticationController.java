@@ -16,6 +16,8 @@ import projeto.com.br.form.processing.domain.repository.UserRepository;
 import projeto.com.br.form.processing.infra.security.TokenService;
 import jakarta.validation.Valid;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("auth")
 public class AuthenticationController {
@@ -44,7 +46,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
         try {
-            if (this.userRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().body("O e-mail fornecido já está em uso. ");
+            if (this.userRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().body(Map.of("Error","O e-mail fornecido já está em uso. "));
 
             if (data.name() == null || data.email() == null || data.password() == null) {
                 return ResponseEntity.badRequest().body("Todos os campos obrigatórios devem ser preenchidos.");

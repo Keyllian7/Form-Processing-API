@@ -1,6 +1,7 @@
 CREATE TABLE forms (
-    id INT PRIMARY KEY UNIQUE NOT NULL,
+    id UUID PRIMARY KEY UNIQUE NOT NULL,
     motivo TEXT NOT NULL,
     setor TEXT NOT NULL,
-    mensagem TEXT
+    mensagem TEXT,
+    user_id UUID,
 );
