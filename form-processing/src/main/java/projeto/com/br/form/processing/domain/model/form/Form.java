@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import projeto.com.br.form.processing.api.dto.form.FormRequestDTO;
 import projeto.com.br.form.processing.domain.model.user.User;
 
 import java.util.Date;

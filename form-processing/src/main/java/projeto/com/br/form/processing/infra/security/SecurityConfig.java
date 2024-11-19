@@ -17,7 +17,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class SecurityConfig {
 
     @Autowired
     SecurityFilter securityFilter;
@@ -34,9 +34,12 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "/swagger-ui.html/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/form/create").authenticated()
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/form/create").authenticated()
                         .requestMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/user/list/{id}", "/user/admin/list").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/user/update/").hasRole("USER")
+                        .requestMatchers(HttpMethod.DELETE, "/user/delete/{id}").authenticated()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
