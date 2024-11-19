@@ -42,4 +42,39 @@ public class FormController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/update/user/{id}")
+    public ResponseEntity updateForm(
+        @PathVariable String id,
+        @RequestBody @Valid FormRequestDTO body,
+        @RequestHeader("Authorization") String token) {
+    
+        String email = tokenService.validadeToken(token.replace("Bearer ", ""));
+        if (email.isEmpty()) {
+        return ResponseEntity.status(401).body("Token inválido ou expirado.");
+        }
+
+        User user = (User) userRepository.findByEmail(email);
+
+        if (user == null) {
+        return ResponseEntity.status(404).body("Usuário não encontrado.");
+        }
+
+        Form form = formRepository.findById(id).orElse(null);
+
+        if (form == null) {
+        return ResponseEntity.status(404).body("Formulário não encontrado.");
+        }
+
+        if (!form.getEmissor().equals(user)) {
+        return ResponseEntity.status(403).body("Você não tem permissão para alterar este formulário.");
+        }
+
+        form.setMotivo(body.motivo());
+        form.setSetor(body.setor());
+        form.setMensagem(body.mensagem());
+
+        formRepository.save(form);
+
+        return ResponseEntity.ok("Formulário atualizado com sucesso.");
+    }
 }

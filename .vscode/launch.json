@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "FormProcessingApplication",
+            "request": "launch",
+            "mainClass": "projeto.com.br.form.processing.FormProcessingApplication",
+            "projectName": "form-processing"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

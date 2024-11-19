@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import projeto.com.br.form.processing.api.dto.form.FormRequestDTO;
 import projeto.com.br.form.processing.domain.model.user.User;
-
 import java.util.Date;
 
 @Table
@@ -39,4 +38,15 @@ public class Form {
         this.emissor = emissor;
     }
 
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
+    public void setSetor(String setor) {
+        this.setor = setor;
+    }
+
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
+    }
 }
