@@ -43,7 +43,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/form/update/user/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/form/delete/user/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/form/get/user/{id}").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/form/user/all").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/form/user/all").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
