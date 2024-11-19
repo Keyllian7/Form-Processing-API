@@ -33,17 +33,20 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        //Swagger e Auth
                         .requestMatchers(HttpMethod.GET, "/swagger-ui.html/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/form/create").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/user/list/{id}", "/user/admin/list").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/user/update/").hasRole("USER")
-                        .requestMatchers(HttpMethod.DELETE, "/user/delete/{id}").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/form/update/user/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/form/delete/user/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/form/get/user/{id}").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/form/user/all").hasRole("ADMIN")
+                        //User Controller
+                        .requestMatchers(HttpMethod.PUT, "user/update/{id}").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "user/list/{id}", "user/list/all").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "user/forms/{id}").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "user/delete/{id}").hasRole("USER")
+                        //Form Controller
+                        .requestMatchers(HttpMethod.POST, "form/create").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "form/update/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "form/list/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "form/delete/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "form/list/all").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

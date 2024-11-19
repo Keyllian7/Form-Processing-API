@@ -40,10 +40,10 @@ public class FormController {
 
         Form newForm = new Form(body, user);
         this.formRepository.save(newForm);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(200).body("Formulário criado com sucesso.");
     }
 
-    @PutMapping("/update/user/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity updateForm(
         @PathVariable String id,
         @RequestBody @Valid FormRequestDTO body,
@@ -75,7 +75,7 @@ public class FormController {
         return ResponseEntity.ok("Formulário atualizado com sucesso.");
     }
 
-    @DeleteMapping("/delete/user/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteForm(
         @PathVariable String id,
         @RequestHeader("Authorization") String token) {
@@ -102,7 +102,7 @@ public class FormController {
     return ResponseEntity.ok("Formulário excluído com sucesso.");
     }
 
-    @GetMapping("/get/user/{id}")
+    @GetMapping("/list/{id}")
     public ResponseEntity getFormById(
         @PathVariable String id,
         @RequestHeader("Authorization") String token) {
@@ -127,20 +127,19 @@ public class FormController {
     return ResponseEntity.ok(form);
     }
 
-    @GetMapping("/user/all")
+    @GetMapping("/list/all")
     public ResponseEntity<List<Form>> getAllForms(
         @RequestHeader("Authorization") String token) {
 
-    // Validar o token e obter o email do usuário autenticado
     String email = tokenService.validadeToken(token.replace("Bearer ", ""));
     if (email.isEmpty()) {
-        return ResponseEntity.status(401).body(null); // Token inválido ou expirado
+        return ResponseEntity.status(401).body(null);
     }
 
     User user = (User)userRepository.findByEmail(email);
 
     if (user == null) {
-        return ResponseEntity.status(404).body(null); // Usuário não encontrado
+        return ResponseEntity.status(404).body(null);
     }
 
     List<Form> allForms = formRepository.findAll();

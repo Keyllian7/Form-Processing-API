@@ -30,13 +30,13 @@ public class UserController {
     @Autowired
     FormRepository formRepository;
 
-    @GetMapping("admin/list")
+    @GetMapping("/list/all")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("admin/list/{id}")
+    @GetMapping("/list/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id) {
         Optional<User> user = userRepository.findById(id);
         return user.map(ResponseEntity::ok)
@@ -93,9 +93,9 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity listFormsByUser(@PathVariable String userId) {
-        List<Form> forms = formRepository.findByEmissorId(userId);
+    @GetMapping("/forms/{id}")
+    public ResponseEntity listFormsByUser(@PathVariable String id) {
+        List<Form> forms = formRepository.findByEmissorId(id);
         if (forms.isEmpty()) {
             return ResponseEntity.status(404).body("Nenhum formulário encontrado para o usuário.");
         }
