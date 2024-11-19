@@ -2,9 +2,12 @@ package projeto.com.br.form.processing.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import projeto.com.br.form.processing.domain.model.form.Form;
 import projeto.com.br.form.processing.domain.model.user.User;
+import projeto.com.br.form.processing.domain.repository.FormRepository;
 import projeto.com.br.form.processing.domain.repository.UserRepository;
 import projeto.com.br.form.processing.domain.service.TokenService;
 
@@ -23,6 +26,9 @@ public class UserController {
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    FormRepository formRepository;
 
     @GetMapping("admin/list")
     public ResponseEntity<List<User>> getAllUsers() {
@@ -60,4 +66,40 @@ public class UserController {
         userRepository.save(existingUser);
         return ResponseEntity.ok("Usuário atualizado com sucesso.");
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable String id, @RequestHeader("Authorization") String token) {
+        try {
+            String email = tokenService.validadeToken(token.replace("Bearer ", ""));
+            if (email.isEmpty()) {
+                return ResponseEntity.status(401).body("Token inválido ou expirado.");
+            }
+            User authenticatedUser = (User) userRepository.findByEmail(email);
+            if (authenticatedUser == null) {
+                return ResponseEntity.status(404).body("Usuário autenticado não encontrado.");
+            }
+            if (!authenticatedUser.getId().equals(id)) {
+                return ResponseEntity.status(403).body("Você não tem permissão para excluir esta conta.");
+            }
+
+            List<Form> userForms = formRepository.findByEmissorId(id);
+            if (userForms != null && !userForms.isEmpty()) {
+                return ResponseEntity.status(400).body("Não é possível excluir a conta, pois existem formulários associados a ela.");
+            }
+            userRepository.delete(authenticatedUser);
+            return ResponseEntity.ok("Conta excluída com sucesso.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erro ao processar a solicitação: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity listFormsByUser(@PathVariable String userId) {
+        List<Form> forms = formRepository.findByEmissorId(userId);
+        if (forms.isEmpty()) {
+            return ResponseEntity.status(404).body("Nenhum formulário encontrado para o usuário.");
+        }
+        return ResponseEntity.ok(forms);
+    }
+
 }
