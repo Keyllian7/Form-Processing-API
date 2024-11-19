@@ -65,10 +65,6 @@ public class FormController {
         return ResponseEntity.status(404).body("Formulário não encontrado.");
         }
 
-        if (!form.getEmissor().equals(user)) {
-        return ResponseEntity.status(403).body("Você não tem permissão para alterar este formulário.");
-        }
-
         form.setMotivo(body.motivo());
         form.setSetor(body.setor());
         form.setMensagem(body.mensagem());
