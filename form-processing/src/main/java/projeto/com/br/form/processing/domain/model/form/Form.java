@@ -19,8 +19,8 @@ import java.util.Date;
 public class Form {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String motivo;
     private String setor;
