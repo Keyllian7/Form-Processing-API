@@ -1,5 +1,6 @@
 package projeto.com.br.form.processing.api.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,7 @@ import projeto.com.br.form.processing.domain.model.user.*;
 import projeto.com.br.form.processing.domain.repository.UserRepository;
 import projeto.com.br.form.processing.domain.service.TokenService;
 import jakarta.validation.Valid;
+import java.util.Map;
 
 import java.util.Map;
 
@@ -31,6 +33,9 @@ public class AuthenticationController {
 
     @Autowired
     TokenService tokenService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
@@ -54,7 +59,9 @@ public class AuthenticationController {
             }
 
             String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-            User newUser = new User(data.name(), data.email(), encryptedPassword, UserRole.USER);
+            User newUser = modelMapper.map(data, User.class);
+            newUser.setPassword(encryptedPassword);
+            newUser.setRole(UserRole.USER);
             this.userRepository.save(newUser);
 
             return ResponseEntity.ok("Usuário registrado com sucesso!");
