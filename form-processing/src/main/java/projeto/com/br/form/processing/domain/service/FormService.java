@@ -47,12 +47,4 @@ public class FormService {
         return formRepository.save(form);
     }
 
-    public long getTotalForms() {
-        return formRepository.count();
-    }
-
-    public long getPendingForms() {
-        return formRepository.countByStatus(Status.PENDENTE);
-    }
-
 }

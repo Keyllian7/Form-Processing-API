@@ -47,15 +47,4 @@ public class FormController {
                 statusMensagemDTO.getMensagem()
         ));
     }
-
-    @GetMapping("/total")
-    public ResponseEntity<Long> getTotalForms() {
-        return ResponseEntity.ok(formService.getTotalForms());
-    }
-
-    @GetMapping("/pending")
-    public ResponseEntity<Long> getPendingForms() {
-        return ResponseEntity.ok(formService.getPendingForms());
-    }
-
 }

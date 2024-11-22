@@ -17,6 +17,4 @@ public interface FormRepository extends JpaRepository<Form, Long> {
     @Query("SELECT f FROM Form f WHERE f.dataExclusao IS NULL")
     List<Form> buscarAtivos();
 
-    long countByStatus(Status status);
-
 }
