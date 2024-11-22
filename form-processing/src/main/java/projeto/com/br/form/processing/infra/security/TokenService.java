@@ -1,4 +1,4 @@
-package projeto.com.br.form.processing.domain.service;
+package projeto.com.br.form.processing.infra.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -14,37 +14,40 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService {
 
-    @Value("{api.security.token.secret}")
-    private  String secret;
+    @Value("${api.security.token.secret}")
+    private String senha;
 
-    public String generateToken(User user) {
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+    public String gerarToken(User user){
+        try{
+            Algorithm algorithm = Algorithm.HMAC256(senha);
             String token = JWT.create()
                     .withIssuer("form-processing")
                     .withSubject(user.getEmail())
-                    .withExpiresAt(genExpirationDate())
+                    .withClaim("role", user.getRole().name())
+                    .withExpiresAt(expirarToken())
                     .sign(algorithm);
             return token;
-        } catch (JWTCreationException exception) {
+        }catch (JWTCreationException exception){
             throw new RuntimeException("Erro ao gerar token", exception);
         }
+
     }
 
-    public String validadeToken(String token) {
+    public String validarToken(String token){
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            return  JWT.require(algorithm)
+            Algorithm algorithm = Algorithm.HMAC256(senha);
+            return JWT.require(algorithm)
                     .withIssuer("form-processing")
                     .build()
                     .verify(token)
                     .getSubject();
-        } catch (JWTVerificationException exception) {
-            return  "";
+        } catch (JWTVerificationException exception){
+            return "";
         }
     }
 
-    private Instant genExpirationDate(){
-        return LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-03:00"));
+    private Instant expirarToken(){
+        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
+
 }

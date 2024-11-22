@@ -1,42 +1,43 @@
 package projeto.com.br.form.processing.domain.model.form;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import projeto.com.br.form.processing.api.dto.form.FormRequestDTO;
-import projeto.com.br.form.processing.domain.model.user.User;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
+import java.time.OffsetDateTime;
 
-import java.util.Date;
-
-@Table
-@Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Entity
 public class Form {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @EqualsAndHashCode.Include
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String motivo;
     private String setor;
+    private String problema;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
+
+    @Column(nullable = false)
     private String mensagem;
-    private Date dataCriacao;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User emissor;
+    @CreationTimestamp
+    private OffsetDateTime dataCriacao;
 
-    public Form(FormRequestDTO data, User emissor) {
-        this.motivo = data.motivo();
-        this.setor = data.setor();
-        this.mensagem = data.mensagem();
-        this.dataCriacao = new Date();
-        this.emissor = emissor;
-    }
+    @UpdateTimestamp
+    private OffsetDateTime dataAtualizacao;
+
+    @Where(clause = "dataExclusao IS NULL")
+    private OffsetDateTime dataExclusao;
 
 }

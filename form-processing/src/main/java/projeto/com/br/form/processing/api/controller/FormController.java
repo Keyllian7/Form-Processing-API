@@ -1,45 +1,50 @@
 package projeto.com.br.form.processing.api.controller;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import projeto.com.br.form.processing.domain.model.form.Form;
-import projeto.com.br.form.processing.api.dto.form.FormRequestDTO;
-import projeto.com.br.form.processing.domain.model.user.User;
-import projeto.com.br.form.processing.domain.repository.FormRepository;
-import projeto.com.br.form.processing.domain.repository.UserRepository;
-import projeto.com.br.form.processing.domain.service.TokenService;
+import projeto.com.br.form.processing.api.dto.formDTO.FormInputDTO;
+import projeto.com.br.form.processing.api.dto.formDTO.FormOutDTO;
+import projeto.com.br.form.processing.api.dto.formDTO.StatusMensagemDTO;
+import projeto.com.br.form.processing.assembler.FormAssembler;
+import projeto.com.br.form.processing.domain.service.FormService;
+import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/form")
 public class FormController {
 
-    @Autowired
-    FormRepository formRepository;
-
-    @Autowired
-    TokenService tokenService;
-
-    @Autowired
-    private UserRepository userRepository;
+    private FormAssembler formAssembler;
+    private FormService formService;
 
     @PostMapping("/create")
-    public ResponseEntity postForm(@RequestBody @Valid FormRequestDTO body, @RequestHeader("Authorization") String token) {
-        String email = tokenService.validadeToken(token.replace("Bearer ", ""));
-        if (email.isEmpty()) {
-            return ResponseEntity.status(401).body("Token inválido ou expirado.");
-        }
+    @ResponseStatus(HttpStatus.CREATED)
+    public FormOutDTO criar(@RequestBody final @Valid FormInputDTO formInputDTO) {
+        return formAssembler.paraFormDTO(formService.registrar(formAssembler.paraForm(formInputDTO)));
+    }
 
-        User user = (User) userRepository.findByEmail(email);
+    @GetMapping("/list")
+    public List<FormOutDTO> listar() {
+        return formAssembler.paraColecaoFormDTO(formService.listar());
+    }
 
-        if (user == null) {
-            return ResponseEntity.status(404).body("Usuário não encontrado.");
-        }
+    @DeleteMapping("/delete/{formID}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable final Long formID) {
+        formService.deletar(formID);
+    }
 
-        Form newForm = new Form(body, user);
-        this.formRepository.save(newForm);
-        return ResponseEntity.ok().build();
+    @PatchMapping("/update/{formID}")
+    public FormOutDTO atualizarStatusMensagem(
+            @PathVariable Long formID,
+            @RequestBody StatusMensagemDTO statusMensagemDTO) {
+        return formAssembler.paraFormDTO(formService.atualizarFormulario(
+                formID,
+                statusMensagemDTO.getStatus(),
+                statusMensagemDTO.getMensagem()
+        ));
     }
 
 }
