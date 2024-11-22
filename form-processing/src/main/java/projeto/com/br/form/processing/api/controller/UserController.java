@@ -32,4 +32,9 @@ public class UserController {
         return userAssembler.paraColecaoUserDTO(userService.listar());
     }
 
+    @GetMapping("/total")
+    public ResponseEntity<Long> getTotalUsers() {
+        return ResponseEntity.ok(userService.getTotalUsers());
+    }
+
 }

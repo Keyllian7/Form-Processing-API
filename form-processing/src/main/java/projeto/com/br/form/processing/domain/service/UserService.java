@@ -49,4 +49,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public long getTotalUsers() {
+        return userRepository.count();
+    }
+
 }

@@ -3,6 +3,7 @@ package projeto.com.br.form.processing.api.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import projeto.com.br.form.processing.api.dto.formDTO.FormInputDTO;
 import projeto.com.br.form.processing.api.dto.formDTO.FormOutDTO;
@@ -45,6 +46,16 @@ public class FormController {
                 statusMensagemDTO.getStatus(),
                 statusMensagemDTO.getMensagem()
         ));
+    }
+
+    @GetMapping("/total")
+    public ResponseEntity<Long> getTotalForms() {
+        return ResponseEntity.ok(formService.getTotalForms());
+    }
+
+    @GetMapping("/pending")
+    public ResponseEntity<Long> getPendingForms() {
+        return ResponseEntity.ok(formService.getPendingForms());
     }
 
 }
