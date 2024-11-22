@@ -1,15 +1,14 @@
 package projeto.com.br.form.processing.domain.model.user;
 
-public enum UserRole {
+public enum Roles {
     ADMIN("admin"),
     USER("user");
 
     private String role;
 
-    UserRole(String role) {
+    Roles(String role) {
         this.role = role;
     }
-
     public String getRole() {
         return role;
     }

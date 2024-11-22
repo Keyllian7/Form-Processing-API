@@ -11,7 +11,8 @@ import projeto.com.br.form.processing.domain.repository.UserRepository;
 public class AuthorizationService implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username);
