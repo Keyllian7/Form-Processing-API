@@ -19,6 +19,7 @@ import java.util.UUID;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id

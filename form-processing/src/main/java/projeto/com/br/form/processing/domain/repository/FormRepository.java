@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import projeto.com.br.form.processing.domain.model.form.Form;
 import projeto.com.br.form.processing.domain.model.form.Status;
+import projeto.com.br.form.processing.domain.model.user.User;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -16,5 +17,8 @@ public interface FormRepository extends JpaRepository<Form, Long> {
 
     @Query("SELECT f FROM Form f WHERE f.dataExclusao IS NULL")
     List<Form> buscarAtivos();
+
+    @Query("SELECT f FROM Form f WHERE f.user = :user AND f.dataExclusao IS NULL")
+    List<Form> findByUser(User user);
 
 }

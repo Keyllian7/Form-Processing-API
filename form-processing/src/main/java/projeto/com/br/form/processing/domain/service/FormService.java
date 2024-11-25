@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import projeto.com.br.form.processing.domain.model.form.Form;
 import projeto.com.br.form.processing.domain.model.form.Status;
+import projeto.com.br.form.processing.domain.model.user.User;
 import projeto.com.br.form.processing.domain.repository.FormRepository;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -17,7 +18,8 @@ public class FormService {
     private FormRepository formRepository;
 
     @Transactional
-    public Form registrar(final Form form) {
+    public Form registrar(final Form form, User user) {
+        form.setUser(user);
         form.setStatus(Status.PENDENTE);
         form.setMensagem("Aguarde! Estamos fazendo a análise...");
         return formRepository.save(form);
@@ -46,5 +48,11 @@ public class FormService {
         form.setMensagem(mensagem);
         return formRepository.save(form);
     }
+
+    @Transactional
+    public List<Form> listarPorUsuario(User user) {
+        return formRepository.findByUser(user);
+    }
+
 
 }
