@@ -24,6 +24,7 @@ public class TokenService {
                     .withIssuer("form-processing")
                     .withSubject(user.getEmail())
                     .withClaim("role", user.getRole().name())
+                    .withClaim("nome", user.getNome())
                     .withExpiresAt(expirarToken())
                     .sign(algorithm);
             return token;

@@ -35,6 +35,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody final @Valid UserLoginDTO data){
+        if (userService.isUserExcluded(data.email())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuário excluído não pode fazer login.");
+        }
         var userPassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = authenticationManager.authenticate(userPassword);
         var token = tokenService.gerarToken((User) auth.getPrincipal());

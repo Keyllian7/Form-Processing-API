@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/form/create").authenticated()
                         .requestMatchers(HttpMethod.GET, "user/list").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/real-time").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "user/update").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
