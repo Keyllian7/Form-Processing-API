@@ -38,6 +38,7 @@ public class UserService {
             existingUser.setDataExclusao(null);
             existingUser.setSenha(passwordEncoder.encode(user.getSenha()));
             existingUser.setRole(Roles.USER);
+            existingUser.setNome(user.getNome());
             emailService.enviarEmailConfirmacao(
                     existingUser.getEmail(),
                     "Cadastro Reativado com Sucesso!",
@@ -57,15 +58,31 @@ public class UserService {
     }
 
     @Transactional
-    public User atualizar(final User user, UUID userId) {
-
-        User pegarUser = buscar(userId);
-        pegarUser.setNome(user.getNome());
-        pegarUser.setEmail(user.getEmail());
-        pegarUser.setSenha(passwordEncoder.encode(user.getSenha()));
-        return userRepository.save(pegarUser);
-
+    public User atualizar(User user, String emailAutenticado) {
+        User existingUser = userRepository.findActiveByEmail(emailAutenticado);
+        if (existingUser == null) {
+            throw new EntityNotFoundException("Usuário autenticado não encontrado.");
+        }
+        if (!user.getEmail().equals(existingUser.getEmail())) {
+            User userWithNewEmail = userRepository.findActiveByEmail(user.getEmail());
+            if (userWithNewEmail != null) {
+                throw new IllegalArgumentException("O e-mail informado já está em uso por outro usuário ativo.");
+            }
+        }
+        existingUser.setNome(user.getNome());
+        existingUser.setEmail(user.getEmail());
+        if (user.getSenha() != null && !user.getSenha().isEmpty()) {
+            existingUser.setSenha(passwordEncoder.encode(user.getSenha()));
+        }
+        User updatedUser = userRepository.save(existingUser);
+        emailService.enviarEmailConfirmacao(
+                updatedUser.getEmail(),
+                "Dados Atualizados com Sucesso!",
+                String.format("Olá, %s! Seus dados foram atualizados com sucesso. Caso você não tenha feito esta alteração, entre em contato imediatamente.", updatedUser.getNome())
+        );
+        return updatedUser;
     }
+
 
     @Transactional
     public User buscar(final UUID userId) {
@@ -93,6 +110,13 @@ public class UserService {
         List<Form> formularios = formRepository.findByCriadorIdAndDataExclusaoIsNull(authenticatedUser.getId());
         formularios.forEach(form -> form.setDataExclusao(OffsetDateTime.now()));
         formRepository.saveAll(formularios);
+
+        emailService.enviarEmailConfirmacao(
+                authenticatedUser.getEmail(),
+                "Conta Excluída com Sucesso!",
+                String.format("Olá, %s! Sua conta foi excluída com sucesso. Caso você não tenha solicitado esta exclusão, entre em contato imediatamente.", authenticatedUser.getNome())
+        );
+
     }
 
     public boolean isUserExcluded(String email) {
