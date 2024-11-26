@@ -7,12 +7,15 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
+import projeto.com.br.form.processing.domain.model.user.User;
+
 import java.time.OffsetDateTime;
 
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@Table(name = "forms")
 public class Form {
 
     @Id
@@ -39,5 +42,9 @@ public class Form {
 
     @Where(clause = "dataExclusao IS NULL")
     private OffsetDateTime dataExclusao;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 }

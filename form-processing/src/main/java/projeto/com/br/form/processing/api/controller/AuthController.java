@@ -18,6 +18,7 @@ import projeto.com.br.form.processing.infra.security.TokenService;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
 
     @Autowired
