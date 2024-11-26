@@ -33,4 +33,11 @@ public class UserController {
         return userAssembler.paraColecaoUserDTO(userService.listar());
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deletar(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        userService.deletar(token);
+        return ResponseEntity.noContent().build();
+    }
+
 }

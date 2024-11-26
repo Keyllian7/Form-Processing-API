@@ -9,6 +9,7 @@ import projeto.com.br.form.processing.domain.model.user.User;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public interface FormRepository extends JpaRepository<Form, Long> {
     @Modifying
@@ -20,5 +21,8 @@ public interface FormRepository extends JpaRepository<Form, Long> {
 
     @Query("SELECT f FROM Form f WHERE f.user = :user AND f.dataExclusao IS NULL")
     List<Form> findByUser(User user);
+
+    @Query("SELECT f FROM Form f WHERE f.user.id = :criadorId AND f.dataExclusao IS NULL")
+    List<Form> findByCriadorIdAndDataExclusaoIsNull(UUID criadorId);
 
 }
