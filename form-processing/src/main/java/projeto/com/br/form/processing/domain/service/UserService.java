@@ -25,7 +25,7 @@ public class UserService {
             throw new IllegalArgumentException("Email já está em uso.");
         }
         user.setSenha(passwordEncoder.encode(user.getSenha()));
-        user.setRole(Roles.ADMIN);
+        user.setRole(Roles.USER);
         emailService.enviarEmailConfirmacao(
                 user.getEmail(),
                 "Cadastro Realizado com Sucesso!",
