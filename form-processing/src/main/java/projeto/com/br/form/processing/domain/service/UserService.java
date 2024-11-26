@@ -17,6 +17,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Transactional
     public User register(final User user) {
@@ -24,7 +25,12 @@ public class UserService {
             throw new IllegalArgumentException("Email já está em uso.");
         }
         user.setSenha(passwordEncoder.encode(user.getSenha()));
-        user.setRole(Roles.USER);
+        user.setRole(Roles.ADMIN);
+        emailService.enviarEmailConfirmacao(
+                user.getEmail(),
+                "Cadastro Realizado com Sucesso!",
+                String.format("Olá, %s! Seu cadastro foi realizado com sucesso. Bem-vindo à nossa plataforma!", user.getNome())
+        );
         return userRepository.save(user);
     }
 
@@ -34,7 +40,7 @@ public class UserService {
         User pegarUser = buscar(userId);
         pegarUser.setNome(user.getNome());
         pegarUser.setEmail(user.getEmail());
-        pegarUser.setSenha(user.getSenha());
+        pegarUser.setSenha(passwordEncoder.encode(user.getSenha()));
         return userRepository.save(pegarUser);
 
     }

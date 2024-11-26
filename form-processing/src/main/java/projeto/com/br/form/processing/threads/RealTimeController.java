@@ -56,8 +56,6 @@ public class RealTimeController {
             this.pendingForms = pendingForms;
         }
 
-
-
     }
 }
 

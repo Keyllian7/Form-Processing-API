@@ -43,7 +43,7 @@ public class RealTimeService {
                         System.out.println("Total Forms: " + totalForms);
                         System.out.println("Pending Forms: " + pendingForms);
 
-                        TimeUnit.SECONDS.sleep(15);
+                        TimeUnit.SECONDS.sleep(10);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                         break;
