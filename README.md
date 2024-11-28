@@ -1,4 +1,4 @@
-<h1 align="center" style="font-weight: bold;">Form Processing Frontend 💻</h1>
+<h1 align="center" style="font-weight: bold;">Form Processing API 💻</h1>
 
 <p align="center">
  <a href="#descricao">Descrição</a> • 
@@ -37,12 +37,12 @@ Para clonar o repositório e instalar as dependências:
 
 <h3>Pré-requisitos</h3>
 
-- Java 11+ instalado
+- Java 17+ 
 - Maven
 - PostgreSQL
-- Visual Studio Code (VSCode)
-- DBeaver
-- Git bash (Opcional)
+- Visual Studio Code (Opcional)
+- DBeaver (Opcional)
+- Bash, ZSH ou um shell de terminal de sua escolha.
 
 <h3>Passo a Passo</h3>
 
@@ -54,9 +54,13 @@ Para clonar o repositório e instalar as dependências:
    ```bash
    cd Form-Processing-API
    ```
-3. Abra o projeto no Visual Studio Code (Via Git bash):
+3. Instale as dependências do maven:
    ```bash
-   code .
+   mvn clean install
+   ```   
+4. Rode o projeto:
+   ```bash
+   mvn spring-boot:run
    ```
 
 <h2 id="colab">🤝 Colaboradores</h2>
