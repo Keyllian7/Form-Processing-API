@@ -10,6 +10,8 @@ import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import projeto.com.br.form.processing.domain.enums.Roles;
+
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.List;

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import projeto.com.br.form.processing.api.dto.formDTO.FormInputDTO;
 import projeto.com.br.form.processing.api.dto.formDTO.FormOutDTO;
 import projeto.com.br.form.processing.domain.model.form.Form;
-import projeto.com.br.form.processing.domain.model.form.Status;
+import projeto.com.br.form.processing.domain.enums.Status;
 import java.util.List;
 import java.util.stream.Collectors;
 

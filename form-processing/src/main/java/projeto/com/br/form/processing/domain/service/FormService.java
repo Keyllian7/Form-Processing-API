@@ -5,7 +5,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import projeto.com.br.form.processing.domain.model.form.Form;
-import projeto.com.br.form.processing.domain.model.form.Status;
+import projeto.com.br.form.processing.domain.enums.Status;
 import projeto.com.br.form.processing.domain.model.user.User;
 import projeto.com.br.form.processing.domain.repository.FormRepository;
 import java.time.OffsetDateTime;
@@ -38,6 +38,12 @@ public class FormService {
     public List<Form> listar() {
         return formRepository.buscarAtivos();
     }
+
+    @Transactional
+    public List<Form> listarTodos() {
+        return formRepository.findAll();
+    }
+
 
     @Transactional
     public void deletar(final Long formId) {

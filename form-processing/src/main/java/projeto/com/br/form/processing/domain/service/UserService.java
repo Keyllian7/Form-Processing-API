@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import projeto.com.br.form.processing.domain.model.form.Form;
-import projeto.com.br.form.processing.domain.model.user.Roles;
+import projeto.com.br.form.processing.domain.enums.Roles;
 import projeto.com.br.form.processing.domain.model.user.User;
 import projeto.com.br.form.processing.domain.repository.FormRepository;
 import projeto.com.br.form.processing.domain.repository.UserRepository;
@@ -14,7 +14,6 @@ import projeto.com.br.form.processing.infra.security.TokenService;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @AllArgsConstructor
 @Service

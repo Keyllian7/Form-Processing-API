@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import projeto.com.br.form.processing.domain.model.form.Status;
+import projeto.com.br.form.processing.domain.enums.Status;
 
 @Getter
 @Setter
