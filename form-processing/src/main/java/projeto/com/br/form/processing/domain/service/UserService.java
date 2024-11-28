@@ -85,8 +85,12 @@ public class UserService {
 
 
     @Transactional
-    public User buscar(final UUID userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
+    public User buscarPorEmail(String email) {
+        User user = userRepository.findActiveByEmail(email);
+        if (user == null) {
+            throw new EntityNotFoundException("Usuário não encontrado.");
+        }
+        return user;
     }
 
     @Transactional

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import projeto.com.br.form.processing.api.dto.userDTO.UserInputDTO;
 import projeto.com.br.form.processing.api.dto.userDTO.UserOutDTO;
+import projeto.com.br.form.processing.api.dto.userDTO.UserProfileDTO;
 import projeto.com.br.form.processing.assembler.UserAssembler;
 import projeto.com.br.form.processing.domain.model.user.User;
 import projeto.com.br.form.processing.domain.service.UserService;
@@ -48,6 +49,22 @@ public class UserController {
         String token = authorizationHeader.replace("Bearer ", "");
         userService.deletar(token);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserProfileDTO> buscarPerfil(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        String authenticatedEmail = tokenService.validarToken(token);
+
+        if (authenticatedEmail.isEmpty()) {
+            throw new SecurityException("Token inválido ou expirado.");
+        }
+        User user = userService.buscarPorEmail(authenticatedEmail);
+        UserProfileDTO userProfileDTO = new UserProfileDTO();
+        userProfileDTO.setNome(user.getNome());
+        userProfileDTO.setEmail(user.getEmail());
+
+        return ResponseEntity.ok(userProfileDTO);
     }
 
 }
