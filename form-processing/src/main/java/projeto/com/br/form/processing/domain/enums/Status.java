@@ -1,4 +1,4 @@
-package projeto.com.br.form.processing.domain.model.form;
+package projeto.com.br.form.processing.domain.enums;
 
 public enum Status {
     PENDENTE,

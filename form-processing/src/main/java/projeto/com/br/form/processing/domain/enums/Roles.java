@@ -1,4 +1,4 @@
-package projeto.com.br.form.processing.domain.model.user;
+package projeto.com.br.form.processing.domain.enums;
 
 public enum Roles {
     ADMIN("admin"),

@@ -14,11 +14,13 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT u FROM User u WHERE u.dataExclusao IS NULL")
     List<User> findAllAtivos();
 
+    @Query("SELECT u FROM User u WHERE u.dataExclusao IS NOT NULL")
+    List<User> findAllInativos();
+
     @Query("SELECT u FROM User u WHERE u.email = :email AND u.dataExclusao IS NULL")
     User findActiveByEmail(String email);
 
     @Query("SELECT u FROM User u WHERE u.email = :email")
     User findByEmailUser(String email);
-
 
 }

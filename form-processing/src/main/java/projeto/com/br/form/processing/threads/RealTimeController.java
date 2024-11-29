@@ -1,5 +1,7 @@
 package projeto.com.br.form.processing.threads;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,45 +19,45 @@ public class RealTimeController {
         RealTimeData data = new RealTimeData(
                 realTimeService.getTotalUsers(),
                 realTimeService.getTotalForms(),
-                realTimeService.getPendingForms()
+                realTimeService.getPendingForms(),
+                realTimeService.getProcessedForms(),
+                realTimeService.getActiveUsers(),
+                realTimeService.getDeletedForms(),
+                realTimeService.getInactiveUsers(),
+                realTimeService.getAverageFormsPerUser(),
+                realTimeService.getAverageProcessingTime(),
+                realTimeService.getCompletionRate()
         );
         System.out.println("Real-time data: " + data);
         return data;
     }
 
+    @Getter
+    @Setter
     public static class RealTimeData {
         private long totalUsers;
         private long totalForms;
         private long pendingForms;
+        private long processedForms;
+        private long activeUsers;
+        private long deletedForms;
+        private long inactiveUsers;
+        private double averageFormsPerUser;
+        private double averageProcessingTime;
+        private double completionRate;
 
-        public long getTotalUsers() {
-            return totalUsers;
-        }
-
-        public void setTotalUsers(long totalUsers) {
-            this.totalUsers = totalUsers;
-        }
-
-        public long getTotalForms() {
-            return totalForms;
-        }
-
-        public void setTotalForms(long totalForms) {
-            this.totalForms = totalForms;
-        }
-
-        public long getPendingForms() {
-            return pendingForms;
-        }
-
-        public void setPendingForms(long pendingForms) {
-            this.pendingForms = pendingForms;
-        }
-
-        public RealTimeData(long totalUsers, long totalForms, long pendingForms) {
+        public RealTimeData(long totalUsers, long totalForms, long pendingForms, long processedForms, long activeUsers,
+                            long deletedForms, long inactiveUsers, double averageFormsPerUser, double averageProcessingTime, double completionRate) {
             this.totalUsers = totalUsers;
             this.totalForms = totalForms;
             this.pendingForms = pendingForms;
+            this.processedForms = processedForms;
+            this.activeUsers = activeUsers;
+            this.deletedForms = deletedForms;
+            this.inactiveUsers = inactiveUsers;
+            this.averageFormsPerUser = averageFormsPerUser;
+            this.averageProcessingTime = averageProcessingTime;
+            this.completionRate = completionRate;
         }
     }
 }

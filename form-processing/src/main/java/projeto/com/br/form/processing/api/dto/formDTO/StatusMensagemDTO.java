@@ -3,7 +3,7 @@ package projeto.com.br.form.processing.api.dto.formDTO;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import projeto.com.br.form.processing.domain.model.form.Status;
+import projeto.com.br.form.processing.domain.enums.Status;
 
 @Getter
 @Setter
