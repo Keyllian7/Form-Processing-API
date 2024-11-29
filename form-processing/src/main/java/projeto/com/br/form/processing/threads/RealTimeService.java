@@ -2,6 +2,8 @@ package projeto.com.br.form.processing.threads;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -39,6 +41,8 @@ public class RealTimeService {
     private double averageProcessingTime;
     private double completionRate;
 
+    private static final Logger logger = LoggerFactory.getLogger(RealTimeService.class);
+
     @PostConstruct
     public void startThread() {
         executorService.submit(new Runnable() {
@@ -63,16 +67,16 @@ public class RealTimeService {
 
                         completionRate = totalForms > 0 ? (double) processedForms / totalForms * 100 : 0;
 
-                        System.out.println("Total Users: " + totalUsers);
-                        System.out.println("Total Forms: " + totalForms);
-                        System.out.println("Pending Forms: " + pendingForms);
-                        System.out.println("Processed Forms: " + processedForms);
-                        System.out.println("Active Users: " + activeUsers);
-                        System.out.println("Deleted Forms: " + deletedForms);
-                        System.out.println("Inactive Users: " + inactiveUsers);
-                        System.out.println("Average Forms Per User: " + averageFormsPerUser);
-                        System.out.println("Average Processing Time: " + averageProcessingTime + " seconds");
-                        System.out.println("Completion Rate: " + completionRate + "%");
+                        logger.info("Total Users: " + totalUsers);
+                        logger.info("Total Forms: " + totalForms);
+                        logger.info("Pending Forms: " + pendingForms);
+                        logger.info("Processed Forms: " + processedForms);
+                        logger.info("Active Users: " + activeUsers);
+                        logger.info("Deleted Forms: " + deletedForms);
+                        logger.info("Inactive Users: " + inactiveUsers);
+                        logger.info("Average Forms Per User: " + averageFormsPerUser);
+                        logger.info("Average Processing Time: " + averageProcessingTime + " seconds");
+                        logger.info("Completion Rate: " + completionRate + "%");
 
                         TimeUnit.SECONDS.sleep(10);
                     } catch (InterruptedException e) {
