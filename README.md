@@ -3,6 +3,7 @@
 <p align="center">
  <a href="#descricao">Descrição</a> • 
  <a href="#funcionalidades">Funcionalidades</a> • 
+ <a href="diagramas">Diagramas</a> • 
  <a href="#instalacao">Instalação</a> • 
   <a href="#colab">Colaboradores</a>
 </p>
@@ -30,6 +31,28 @@ Este projeto foi desenvolvido como parte do trabalho da A3, com o objetivo de me
 - Processamento assíncrono de formulários.
 - Validação de dados.
 - Armazenamento seguro dos dados.
+
+<h2 id="diagramas">📊 Diagramas e fluxograma da API</h2>
+
+<h3>💡 Diagrama ER</h3>
+
+![Diagrama ER](https://drive.google.com/uc?id=1E5Gs7yBTK8dgpWfIGa5HjQZN0nVIMao1)
+
+<h3>💡 Diagrama de pacotes</h3>
+
+![Diagrama de pacotes](https://drive.google.com/uc?id=1HWPtOcrhYzwp2gw-C7YasI29RWdUugCA)
+
+<h3>💡 Diagrama de Arquitetura</h3>
+
+![Diagrama de Arquitetura](https://drive.google.com/uc?id=1uThf4j-QIcA7lp2LOIKPDFH-V-GaJMtu)
+
+<h3>💡 Fluxograma</h3>
+
+![Fluxograma](https://drive.google.com/uc?id=1Fhg5F7bb7fh726jb1ETor3U522487NHH)
+
+<h3>💡 Diagrama de Classes</h3>
+
+![Diagrama de Classes](https://drive.google.com/uc?id=1rxoxoPEC2t6JNZA1YGr71kG-UynjwrYm)
 
 <h2 id=instalacao>🚀 Instalação</h2>
 
